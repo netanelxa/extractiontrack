@@ -4,10 +4,6 @@ const addBtnRed = document.querySelector('#red');
 const totalPipElement = document.querySelector('#total_pippete');
 const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
-var targetnumber = prompt("Insert the targer number of plates");
-if (targetnumber == null) {
-    targetnumber = 65;
-}
 let total_pip = 0;
 let total_qpcr = 0;
 
@@ -49,8 +45,23 @@ function countTotal(total, flag) {
     }
 }
 
-window.onload = function () {
+function getTarget() {
+    var targetnumber = prompt("Insert the targer number of plates");
+    if (targetnumber == null) {
+        targetnumber = 65;
+    }
+}
 
+window.onload = function () {
+    if (new Date().toTimeString().split(':')[0] > "15" && new Date().toTimeString().split(':')[0] < "23") {
+        window.location.replace("./evening/index_evening.html");
+    }else if (new Date().toTimeString().split(':')[0] > "23" || new Date().toTimeString().split(':')[0] < "7") {
+        window.location.replace("./night/index_night.html");
+    }
+    else{
+        getTarget();
+    }
+    
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
         title: {
@@ -118,7 +129,6 @@ window.onload = function () {
     });
 
     chart.render();
-
 
     function toggleDataSeries(e) {
         if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
@@ -190,7 +200,7 @@ window.onload = function () {
             if (total_pip >= targetnumber) {
                 confetti.start(5000);
             }
-    
+
             chart.data[0].dataPoints.push({
                 x: graphDateItem(hour, minutes),
                 y: total_pip
