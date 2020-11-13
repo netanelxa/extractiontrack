@@ -4,7 +4,7 @@ const addBtnRed = document.querySelector('#red');
 const totalPipElement = document.querySelector('#total_pippete');
 const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
-var targetnumber //= prompt("Insert the targer number of plates");
+var targetnumber = prompt("Insert the targer number of plates");
 if(targetnumber==null){
     targetnumber=65;
 }
