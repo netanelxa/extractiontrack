@@ -1,0 +1,57 @@
+
+
+#total_pippete {
+     font-family: anton ;
+     font-size: 14px;
+     height: 100px;
+     width: 100px;
+     background-color: #F8F8FF;
+     border-radius: 100%;
+     display: inline-block;
+     text-align: right;
+     border: black solid 2px;
+     padding: 25px;
+     text-align: center;
+}
+
+
+
+#total_qpcr {
+     font-family: anton ;
+     font-size: 14px;
+     height: 100px;
+     width: 100px;
+     background-color: #F8F8FF ;
+     border-radius: 100%;
+     display: inline-block;
+     text-align: right;
+     border: black solid 2px;
+     padding: 25px;
+     text-align: center;
+
+}
+
+.container{
+padding-top: 20px;
+
+
+}
+
+#col1{
+text-align: start;
+}
+
+#col2{
+text-align: end;
+}
+
+#QPCRSbtn{
+font-family: anton ;
+font-size: 18px;
+}
+
+#PPbtn{
+font-family: anton ;
+font-size: 18px;
+}
+
