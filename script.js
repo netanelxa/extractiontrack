@@ -53,14 +53,16 @@ function getTarget() {
 }
 
 window.onload = function () {
+/*
     if (new Date().toTimeString().split(':')[0] > "15" && new Date().toTimeString().split(':')[0] < "23") {
         window.location.replace("./evening/index_evening.html");
     }else if (new Date().toTimeString().split(':')[0] > "23" || new Date().toTimeString().split(':')[0] < "7") {
         window.location.replace("./night/index_night.html");
     }
-    else{
+    else
+*/
         getTarget();
-    }
+ //   }
     
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
