@@ -158,7 +158,9 @@ window.onload = function () {
             audio.play();
         }
         if (total_pip >= targetnumber) {
-            confetti.start(5000);
+            confetti.start(500000);
+            var audio = new Audio('../' + 'champ.mp3');
+            audio.play();
         }
         chart.data[0].dataPoints.push({
             x: graphDateItem(hour, minutes),

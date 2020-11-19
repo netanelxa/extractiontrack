@@ -46,23 +46,23 @@ function countTotal(total, flag) {
 }
 
 function getTarget() {
-    var targetnumber = prompt("Insert the targer number of plates");
-    if (targetnumber == null) {
-        targetnumber = 65;
+    var target = prompt("Insert the targer number of plates");
+    if (target == null) {
+        target = 65;
     }
+    return target;
 }
 
 window.onload = function () {
-
-    if (new Date().toTimeString().split(':')[0] > "15" && new Date().toTimeString().split(':')[0] < "23") {
+    var targetnumber;
+    if (Number(new Date().toTimeString().split(':')[0]) >= 15 && Number(new Date().toTimeString().split(':')[0]) < 23) {
         window.location.replace("./evening/index_evening.html");
-    }else if (new Date().toTimeString().split(':')[0] > "23" || new Date().toTimeString().split(':')[0] < "7") {
+    } else if ((Number(new Date().toTimeString().split(':')[0]) >= 23 || (Number(new Date().toTimeString().split(':')[0]) < 7 ))) {
         window.location.replace("./night/index_night.html");
+    } else {
+        targetnumber= getTarget();
     }
-    else{
-        getTarget();
-    }
-    
+
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
         title: {
@@ -161,7 +161,9 @@ window.onload = function () {
             audio.play();
         }
         if (total_pip >= targetnumber) {
-            confetti.start(5000);
+            confetti.start(500000);
+            var audio = new Audio('champ.mp3');
+            audio.play();
         }
 
         chart.data[0].dataPoints.push({
@@ -199,7 +201,9 @@ window.onload = function () {
                 audio.play();
             }
             if (total_pip >= targetnumber) {
-                confetti.start(5000);
+                confetti.start(500000);
+                var audio = new Audio('champ.mp3');
+                audio.play();
             }
 
             chart.data[0].dataPoints.push({
