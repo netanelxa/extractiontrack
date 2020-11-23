@@ -230,6 +230,7 @@ window.onload = function () {
 
             total_pip = 0;
             total_qpcr = 0;
+            targetflag = 0;
             countTotal(0, 3)
             confetti.stop()
             chart.render()
