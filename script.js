@@ -46,7 +46,7 @@ function countTotal(total, flag) {
 }
 
 function getTarget() {
-    var target = prompt("Insert the targer number of plates");
+    var target = prompt("Insert the target number of plates");
     if (target == null) {
         target = 65;
     }
