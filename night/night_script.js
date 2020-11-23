@@ -5,11 +5,12 @@ const totalPipElement = document.querySelector('#total_pippete');
 const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
 var targetnumber = prompt("Insert the target number of plates");
-if(targetnumber==null){
-    targetnumber=65;
+if (targetnumber == null) {
+    targetnumber = 65;
 }
 let total_pip = 0;
 let total_qpcr = 0;
+var targetflag =0
 
 
 
@@ -153,14 +154,15 @@ window.onload = function () {
 
         total_pip += Number(blueLineInput.value)
         countTotal(total_pip, 1)
-        if(total_pip==targetnumber-5){
-            var audio = new Audio('../'+'advavoice.aac');
+        if (total_pip == targetnumber - 5) {
+            var audio = new Audio('../' + 'advavoice.aac');
             audio.play();
         }
-        if (total_pip >= targetnumber) {
-            confetti.start(500000);
+        if (total_pip >= targetnumber && targetflag == 0) {
+            confetti.start(29000);
             var audio = new Audio('../' + 'champ.mp3');
             audio.play();
+            targetflag = 1
         }
         chart.data[0].dataPoints.push({
             x: graphDateItem(hour, minutes),
@@ -191,12 +193,15 @@ window.onload = function () {
 
             total_pip += Number(blueLineInput.value)
             countTotal(total_pip, 1)
-            if(total_pip==targetnumber-5){
-                var audio = new Audio('../'+'advavoice.aac');
+            if (total_pip == targetnumber - 5) {
+                var audio = new Audio('../' + 'advavoice.aac');
                 audio.play();
             }
             if (total_pip >= targetnumber) {
-                confetti.start(5000);
+                confetti.start(29000);
+                var audio = new Audio('../' + 'champ.mp3');
+                audio.play();
+                targetflag = 1
             }
 
             chart.data[0].dataPoints.push({

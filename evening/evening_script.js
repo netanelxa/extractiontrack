@@ -10,7 +10,7 @@ if (targetnumber == null) {
 }
 let total_pip = 0;
 let total_qpcr = 0;
-
+var targetflag = 0;
 
 
 navDiv.innerHTML = Tamplates.navbar([{
@@ -151,10 +151,11 @@ window.onload = function () {
             var audio = new Audio('../' + 'advavoice.aac');
             audio.play();
         }
-        if (total_pip >= targetnumber) {
-            confetti.start(500000);
+        if (total_pip >= targetnumber && targetflag == 0) {
+            confetti.start(29000);
             var audio = new Audio('../' + 'champ.mp3');
             audio.play();
+            targetflag = 1
         }
         chart.data[0].dataPoints.push({
             x: graphDateItem(hour, minutes),
@@ -189,8 +190,11 @@ window.onload = function () {
                 var audio = new Audio('../' + 'advavoice.aac');
                 audio.play();
             }
-            if (total_pip >= targetnumber) {
-                confetti.start(5000);
+            if (total_pip >= targetnumber && targetflag == 0) {
+                confetti.start(29000);
+                var audio = new Audio('../' + 'champ.mp3');
+                audio.play();
+                targetflag = 1
             }
             chart.data[0].dataPoints.push({
                 x: graphDateItem(hour, minutes),

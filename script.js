@@ -6,6 +6,7 @@ const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
 let total_pip = 0;
 let total_qpcr = 0;
+var targetflag = 0;
 
 
 
@@ -160,10 +161,11 @@ window.onload = function () {
             var audio = new Audio('advavoice.aac');
             audio.play();
         }
-        if (total_pip >= targetnumber) {
-            confetti.start(500000);
+        if (total_pip >= targetnumber && targetflag==0) {
+            confetti.start(29000);
             var audio = new Audio('champ.mp3');
             audio.play();
+            targetflag=1
         }
 
         chart.data[0].dataPoints.push({
@@ -200,10 +202,11 @@ window.onload = function () {
                 var audio = new Audio('advavoice.aac');
                 audio.play();
             }
-            if (total_pip >= targetnumber) {
-                confetti.start(500000);
+            if (total_pip >= targetnumber && targetflag==0) {
+                confetti.start(29000);
                 var audio = new Audio('champ.mp3');
                 audio.play();
+                targetflag=1
             }
 
             chart.data[0].dataPoints.push({
