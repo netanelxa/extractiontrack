@@ -4,6 +4,11 @@ const addBtnRed = document.querySelector('#red');
 const totalPipElement = document.querySelector('#total_pippete');
 const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
+const stpBtn = document.querySelector('#stpbtn');
+var champaudio = new Audio('champ.mp3');
+
+
+
 let total_pip = 0;
 let total_qpcr = 0;
 var targetflag = 0;
@@ -162,9 +167,8 @@ window.onload = function () {
             audio.play();
         }
         if (total_pip >= targetnumber && targetflag==0) {
-            confetti.start(29000);
-            var audio = new Audio('champ.mp3');
-            audio.play();
+            confetti.start();
+            champaudio.play();
             targetflag=1
         }
 
@@ -203,9 +207,8 @@ window.onload = function () {
                 audio.play();
             }
             if (total_pip >= targetnumber && targetflag==0) {
-                confetti.start(29000);
-                var audio = new Audio('champ.mp3');
-                audio.play();
+                confetti.start();
+                champaudio.play();
                 targetflag=1
             }
 
@@ -245,7 +248,17 @@ window.onload = function () {
             total_pip = 0;
             total_qpcr = 0;
             countTotal(0, 3)
+            confetti.stop()
             chart.render()
         }
     })
+    
+
+    stpBtn.addEventListener('click', () => {
+        if (confetti.isRunning()) {
+          confetti.remove()
+        }
+        champaudio.pause();
+    })
+    
 }

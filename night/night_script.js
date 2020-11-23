@@ -8,9 +8,14 @@ var targetnumber = prompt("Insert the target number of plates");
 if (targetnumber == null) {
     targetnumber = 65;
 }
+const stpBtn = document.querySelector('#stpbtn');
+var champaudio = new Audio('../' + 'champ.mp3');
+
+
 let total_pip = 0;
 let total_qpcr = 0;
 var targetflag =0
+
 
 
 
@@ -159,9 +164,8 @@ window.onload = function () {
             audio.play();
         }
         if (total_pip >= targetnumber && targetflag == 0) {
-            confetti.start(29000);
-            var audio = new Audio('../' + 'champ.mp3');
-            audio.play();
+            confetti.start();
+            champaudio.play();
             targetflag = 1
         }
         chart.data[0].dataPoints.push({
@@ -197,10 +201,9 @@ window.onload = function () {
                 var audio = new Audio('../' + 'advavoice.aac');
                 audio.play();
             }
-            if (total_pip >= targetnumber) {
-                confetti.start(29000);
-                var audio = new Audio('../' + 'champ.mp3');
-                audio.play();
+            if (total_pip >= targetnumber && targetflag==0) {
+                confetti.start();
+                champaudio.play();
                 targetflag = 1
             }
 
@@ -242,6 +245,13 @@ window.onload = function () {
             confetti.stop()
             chart.render()
         }
+    })
+    
+    stpBtn.addEventListener('click', () => {
+        if (confetti.isRunning()) {
+          confetti.remove()
+        }
+        champaudio.pause();
     })
 
 }

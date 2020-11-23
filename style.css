@@ -55,3 +55,19 @@ font-family: anton ;
 font-size: 18px;
 }
 
+#clrbtn{
+     width: 90px;
+     height: 42px;
+     margin-left: 50%;
+
+}
+
+#stpbtn{
+     width: 120px;
+     margin-left: 50%;
+     height: 42px;
+}
+
+#clrbtn:hover,#stpbtn:hover {
+     background-color: red;
+ }
