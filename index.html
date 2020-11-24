@@ -17,22 +17,22 @@
     <div id="total" class="container">
         <div class="row">
             <div id='col1' class="col-sm-4">
-                <h4 id="total_pippete">Total <br> Plates: <br> </h4>
+                <h3>Total Plates</h3>
+                <h4 id="total_pippete"> </h4>
             </div>
             <div class="col-sm-4">
 
-
             </div>
             <div id="col2" class="col-sm-4">
-
-                <h4 id="total_qpcr">Total <br> QPCR: </h4>
+                <h3>Total QPCR</h3>
+                <h4 id="total_qpcr"> </h4>
 
             </div>
 
         </div>
     </div>
 
-    <div style="text-align: center;" class="graph" id="chartContainer" style="height: 400px; widows: 100%;"></div>
+    <div style="text-align: center;" class="graph" id="chartContainer" style="height: 400px; widows: 100%; "></div>
     <br>
     <br>
     <br>
@@ -53,25 +53,29 @@
 
 
     <div id="btns" class="container">
+        <br>
         <div class="row">
             <div class="col-lg-5">
                 <label id="PPbtn" for="">Number of plates</label>
-                <input type="number" name="" id="hours-bule-line">
+                <input type="number" name="" id="hours-bule-line" autofocus>
                 <button id="blue" type="button" class="btn btn-info">Add</button>
-
-
+    
+    
             </div>
             <div class="col-lg-5">
                 <label id="QPCRSbtn" for="">QPCR Start</label>
                 <input type="number" name="" id="hours-red-line">
-                <button id="red" type="button" class="btn btn-danger">Add</button>
-
-
+                <button id="red" type="button" class="btn btn-danger">Add</button>    
             </div>
-            <div id="col2" class="col-lg-2">
-                <button type="button" class="btn btn-secondary" id="clrbtn">Clear all</button>
+            <div id="col1" class="col-lg-1">
+                <button type="button" class="btn btn-secondary " id="clrbtn">Clear all</button>
+            </div>
+            <div id="col1" class="col-lg-1">
+                <button type="button" class="btn btn-secondary btn-sm" id="stpbtn">Stop animation</button>
             </div>
         </div>
+        <div id="snackbar"></div>
+
 
         <script src="tamplates.js"></script>
         <script type="text/javascript" src="canvasjs.min.js"></script>

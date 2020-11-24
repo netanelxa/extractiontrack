@@ -8,9 +8,12 @@ var targetnumber = prompt("Insert the target number of plates");
 if (targetnumber == null) {
     targetnumber = 65;
 }
+const stpBtn = document.querySelector('#stpbtn');
+var champaudio = new Audio('../' + 'champ.mp3');
+
 let total_pip = 0;
 let total_qpcr = 0;
-
+var targetflag = 0;
 
 
 navDiv.innerHTML = Tamplates.navbar([{
@@ -26,6 +29,19 @@ navDiv.innerHTML = Tamplates.navbar([{
         content: 'Night Shift'
     }
 ])
+
+
+function showSnackbar(number) {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+    x.innerHTML=number+" Plates Added"
+  
+    // Add the "show" class to DIV
+    x.className = "show";
+  
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
 
 
 function timeFormat() {
@@ -151,15 +167,16 @@ window.onload = function () {
             var audio = new Audio('../' + 'advavoice.aac');
             audio.play();
         }
-        if (total_pip >= targetnumber) {
-            confetti.start(500000);
-            var audio = new Audio('../' + 'champ.mp3');
-            audio.play();
+        if (total_pip >= targetnumber && targetflag == 0) {
+            confetti.start();
+            champaudio.play();
+            targetflag = 1
         }
         chart.data[0].dataPoints.push({
             x: graphDateItem(hour, minutes),
             y: Number(total_pip)
         })
+        showSnackbar(Number(blueLineInput.value))
 
         chart.render()
     })
@@ -175,6 +192,7 @@ window.onload = function () {
             x: graphDateItem(hour, minutes),
             y: Number(total_qpcr)
         })
+        showSnackbar(Number(redLineInput.value))
 
         chart.render()
     })
@@ -189,13 +207,16 @@ window.onload = function () {
                 var audio = new Audio('../' + 'advavoice.aac');
                 audio.play();
             }
-            if (total_pip >= targetnumber) {
-                confetti.start(5000);
+            if (total_pip >= targetnumber && targetflag == 0) {
+                confetti.start();
+                champaudio.play();
+                targetflag = 1
             }
             chart.data[0].dataPoints.push({
                 x: graphDateItem(hour, minutes),
                 y: total_pip
             })
+            showSnackbar(Number(blueLineInput.value))
 
             chart.render()
         }
@@ -210,6 +231,8 @@ window.onload = function () {
                 x: graphDateItem(hour, minutes),
                 y: total_qpcr
             })
+            showSnackbar(Number(redLineInput.value))
+
             chart.render()
         }
     })
@@ -226,7 +249,15 @@ window.onload = function () {
             total_pip = 0;
             total_qpcr = 0;
             countTotal(0, 3)
+            confetti.stop()
             chart.render()
         }
+    })
+    
+    stpBtn.addEventListener('click', () => {
+        if (confetti.isRunning()) {
+          confetti.remove()
+        }
+        champaudio.pause();
     })
 }
