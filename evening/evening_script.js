@@ -31,6 +31,19 @@ navDiv.innerHTML = Tamplates.navbar([{
 ])
 
 
+function showSnackbar(number) {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+    x.innerHTML=number+" Plates Added"
+  
+    // Add the "show" class to DIV
+    x.className = "show";
+  
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+
+
 function timeFormat() {
     // let day =new Date().getDate()
     let currentTime = new Date().toTimeString().split(':')
@@ -163,6 +176,7 @@ window.onload = function () {
             x: graphDateItem(hour, minutes),
             y: Number(total_pip)
         })
+        showSnackbar(Number(blueLineInput.value))
 
         chart.render()
     })
@@ -178,6 +192,7 @@ window.onload = function () {
             x: graphDateItem(hour, minutes),
             y: Number(total_qpcr)
         })
+        showSnackbar(Number(redLineInput.value))
 
         chart.render()
     })
@@ -201,6 +216,7 @@ window.onload = function () {
                 x: graphDateItem(hour, minutes),
                 y: total_pip
             })
+            showSnackbar(Number(blueLineInput.value))
 
             chart.render()
         }
@@ -215,6 +231,8 @@ window.onload = function () {
                 x: graphDateItem(hour, minutes),
                 y: total_qpcr
             })
+            showSnackbar(Number(redLineInput.value))
+
             chart.render()
         }
     })
@@ -230,7 +248,6 @@ window.onload = function () {
 
             total_pip = 0;
             total_qpcr = 0;
-            targetflag = 0;
             countTotal(0, 3)
             confetti.stop()
             chart.render()

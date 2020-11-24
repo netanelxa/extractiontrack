@@ -6,6 +6,8 @@ const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
 const stpBtn = document.querySelector('#stpbtn');
 var champaudio = new Audio('champ.mp3');
+var elem = document.documentElement;
+
 
 
 
@@ -29,6 +31,17 @@ navDiv.innerHTML = Tamplates.navbar([{
     }
 ])
 
+function showSnackbar(number) {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+    x.innerHTML=number+" Plates Added"
+  
+    // Add the "show" class to DIV
+    x.className = "show";
+  
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
 
 function timeFormat() {
     //   let day =new Date().getDate()
@@ -38,15 +51,35 @@ function timeFormat() {
     return [Number(hour), Number(minutes)]
 }
 
+function openFullscreen() {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+      elem.msRequestFullscreen();
+    }
+  }
+
+
+  function closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+    }
+  }
 
 function countTotal(total, flag) {
     if (flag == 1) {
-        totalPipElement.innerHTML = `Total Pippeted Plates: ${total}`
+        totalPipElement.innerHTML = ` ${total}`
     } else if (flag == 2) {
-        totalQPCRElement.innerHTML = `Total In QPCR Machine: ${total}`
+        totalQPCRElement.innerHTML = ` ${total}`
     } else if (flag == 3) {
-        totalPipElement.innerHTML = `Total Pippeted Plates: `
-        totalQPCRElement.innerHTML = `Total In QPCR Machine: `
+        totalPipElement.innerHTML = ''
+        totalQPCRElement.innerHTML = ''
 
     }
 }
@@ -58,6 +91,7 @@ function getTarget() {
     }
     return target;
 }
+
 
 window.onload = function () {
     var targetnumber;
@@ -136,6 +170,7 @@ window.onload = function () {
     });
 
     chart.render();
+    document.documentElement.requestFullscreen();
 
     function toggleDataSeries(e) {
         if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
@@ -176,7 +211,7 @@ window.onload = function () {
             x: graphDateItem(hour, minutes),
             y: total_pip
         })
-
+        showSnackbar(Number(blueLineInput.value))
         chart.render()
     })
 
@@ -191,6 +226,7 @@ window.onload = function () {
             x: graphDateItem(hour, minutes),
             y: total_qpcr
         })
+        showSnackbar(Number(redLineInput.value))
 
         chart.render()
     })
@@ -216,7 +252,7 @@ window.onload = function () {
                 x: graphDateItem(hour, minutes),
                 y: total_pip
             })
-
+            showSnackbar(Number(blueLineInput.value))
             chart.render()
         }
     })
@@ -231,6 +267,7 @@ window.onload = function () {
                 x: graphDateItem(hour, minutes),
                 y: total_qpcr
             })
+            showSnackbar(Number(redLineInput.value))
             chart.render()
         }
     })
@@ -247,7 +284,6 @@ window.onload = function () {
 
             total_pip = 0;
             total_qpcr = 0;
-            targetflag = 0;
             countTotal(0, 3)
             confetti.stop()
             chart.render()
