@@ -13,6 +13,27 @@
 
 <body>
     <div id="nav">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Shift </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/#/"><span class="sr-only">(current)</span>Morning Shift</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/#/evning"><span class="sr-only">(current)</span>Evning Shift</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/#/night"><span class="sr-only">(current)</span>Night Shift</a>
+                    </li>
+            </div>
+        </nav>
+
+
     </div>
     <div id="total" class="container">
         <div class="row">
@@ -73,10 +94,10 @@
             </div>
         </div>
 
-        <script src="tamplates.js"></script>
-        <script type="text/javascript" src="canvasjs.min.js"></script>
-        <script src="script.js"></script>
+
         <script src="confetti.min.js"></script>
+        <script type="text/javascript" src="canvasjs.min.js"></script>
+        <script type="module" src="script.js"></script>
 
 
 </body>

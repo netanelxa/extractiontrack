@@ -1,36 +1,30 @@
-const navDiv = document.querySelector('#nav');
+import { timeFormat, graphDateItem } from "./utils.js";
+import { morningCanvas } from "./morning-canvas.js";
+import { evningCanvas } from "./evning-canvas.js";
+import { nightCanvas } from "./night-canvas.js";
+import { saveData, getData } from "./local-store.js";
+
+
 const addBtnBlue = document.querySelector('#blue');
 const addBtnRed = document.querySelector('#red');
 const totalPipElement = document.querySelector('#total_pippete');
 const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
+const blueLineInput = document.querySelector('#hours-bule-line')
+const redLineInput = document.querySelector('#hours-red-line')
+
+const targetnumber = 65;
 let total_pip = 0;
 let total_qpcr = 0;
 
 
-
-navDiv.innerHTML = Tamplates.navbar([{
-        path: 'index.html',
-        content: 'Morning Shift'
-    },
-    {
-        path: './evening/index_evening.html',
-        content: 'Evening Shift'
-    },
-    {
-        path: './night/index_night.html',
-        content: 'Night Shift'
-    }
-])
-
-
-function timeFormat() {
-    //   let day =new Date().getDate()
-    let currentTime = new Date().toTimeString().split(':')
-    let hour = currentTime[0].length === 1 ? '0' + currentTime[0] : currentTime[0]
-    let minutes = currentTime[1].length === 1 ? '0' + currentTime[1] : currentTime[1]
-    return [Number(hour), Number(minutes)]
+const routes = {
+    "/": morningCanvas,
+    "/evning": evningCanvas,
+    "/night": nightCanvas
 }
+
+
 
 
 function countTotal(total, flag) {
@@ -45,110 +39,17 @@ function countTotal(total, flag) {
     }
 }
 
-function getTarget() {
-    var targetnumber = prompt("Insert the targer number of plates");
-    if (targetnumber == null) {
-        targetnumber = 65;
-    }
-}
-
-window.onload = function () {
-    if (new Date().toTimeString().split(':')[0] > "15" && new Date().toTimeString().split(':')[0] < "23") {
-        window.location.replace("./evening/index_evening.html");
-    }else if (new Date().toTimeString().split(':')[0] > "23" || new Date().toTimeString().split(':')[0] < "7") {
-        window.location.replace("./night/index_night.html");
-    }
-    else{
-        getTarget();
-    }
-    
-    var chart = new CanvasJS.Chart("chartContainer", {
-        animationEnabled: true,
-        title: {
-            text: "Motivation "
-        },
-        axisX: {
-            valueFormatString: "HH:mm",
-            interval: 30,
-            intervalType: "minute",
-            viewportMinimum: new Date(2020, 11, 12, 06, 50, 00),
-            viewportMaximum: new Date(2020, 11, 12, 15, 10, 00)
-        },
-        axisY: {
-            title: "Plates Number",
-            minimum: 0,
-            maximum: 100
-        },
-        legend: {
-            cursor: "pointer",
-            fontSize: 10,
-            itemclick: toggleDataSeries
-        },
-        toolTip: {
-            shared: true
-        },
-        data: [{
-
-                name: "Time of Pipetting",
-                type: "spline",
-                // yValueFormatString: " ",
-                showInLegend: true,
-                xValueFormatString: "HH:mm",
-                dataPoints: [{
-                        x: new Date(2020, 11, 12, 07, 00, 00),
-                        y: 0
-                    }
-
-                ]
-            },
-            {
-                name: "QPCR",
-                type: "spline",
-                xValueFormatString: "HH:mm",
-                showInLegend: true,
-                dataPoints: [{
-                        x: new Date(2020, 11, 12, 07, 00, 00),
-                        y: 0
-                    }
-
-                ]
-            },
-            {
-                name: "maxmium",
-                type: "spline",
-                color: "white",
-                xValueFormatString: "HH:mm",
-                dataPoints: [{
-                        x: new Date(2020, 11, 12, 15, 07, 00),
-                        y: 0
-                    }
-
-                ]
-            }
-        ]
-    });
-
-    chart.render();
-
-    function toggleDataSeries(e) {
-        if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-            e.dataSeries.visible = false;
-        } else {
-            e.dataSeries.visible = true;
-        }
-        chart.render();
-    }
 
 
-    function graphDateItem(hour, minutes) {
-        return new Date(2020, 11, 12, hour, minutes, 0)
-    }
 
+function displayCanvas() {
+    let chart
+    let url = document.location.hash.toLowerCase().split('#')
 
-    const blueLineInput = document.querySelector('#hours-bule-line')
-    const redLineInput = document.querySelector('#hours-red-line')
-    // new Date(  'year','mount','day','hours','minutes','seconds')
+    let { Red, Blue } = routes[url[1]]().storeKeys
+    chart = routes[url[1]]().chart
 
+    chart.render()
 
     addBtnBlue.addEventListener('click', () => {
         const [hour, minutes] = timeFormat()
@@ -168,6 +69,10 @@ window.onload = function () {
             y: total_pip
         })
 
+        console.log(chart.data[0].dataPoints)
+
+        saveData(Blue, chart.data[0].dataPoints)
+
         chart.render()
     })
 
@@ -182,6 +87,10 @@ window.onload = function () {
             x: graphDateItem(hour, minutes),
             y: total_qpcr
         })
+
+
+
+        saveData(Red, chart.data[1].dataPoints)
 
         chart.render()
     })
@@ -206,6 +115,8 @@ window.onload = function () {
                 y: total_pip
             })
 
+            saveData(Blue, chart.data[0].dataPoints)
+
             chart.render()
         }
     })
@@ -220,6 +131,9 @@ window.onload = function () {
                 x: graphDateItem(hour, minutes),
                 y: total_qpcr
             })
+
+            saveData(Red, chart.data[1].dataPoints)
+
             chart.render()
         }
     })
@@ -233,11 +147,22 @@ window.onload = function () {
             while (chart.data[1].dataPoints.length > 1) {
                 chart.data[1].dataPoints.pop()
             }
-
+            // removeData(key)
             total_pip = 0;
             total_qpcr = 0;
             countTotal(0, 3)
             chart.render()
         }
     })
+
 }
+
+window.onload = function () {
+    displayCanvas()
+
+}
+
+window.addEventListener('hashchange', () => {
+    location.reload()
+    displayCanvas()
+})
