@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../bootstrap.min.css">
+  <link rel="stylesheet" href="../style.css">
+
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <title>Document</title>
@@ -13,69 +14,44 @@
 
 <body>
   <div id="nav">
+        
   </div>
-  <div id="total" class="container">
-    <div id='col1' class="col-sm-4">
-      <h3>Total Plates</h3>
-      <h4 id="total_pippete"> </h4>
-  </div>
-  <div class="col-sm-4">
+  <div id="total" class="container-fluid">
+      <div class="row">
+          <br>
+          <br>
+          <br>
 
-  </div>
-  <div id="col2" class="col-sm-4">
-      <h3>Total QPCR</h3>
-      <h4 id="total_qpcr"> </h4>
+          <div class="form-group pselect">
+              <select class="form-control" id="plateselect" onchange="checkOption()">
+                  <option>Add Pippeted Plates</option>
+                  <option>Add QPCR Plates</option>
+              </select>
+              <input type="number" name="" id="insertinput" max="100" autofocus>
+              <button id="blue" type="button" class="btn"><input type="image" src="../plus.png" /></button>
+          </div>
+          <div class="col align-self-end">
+              <h3 id='totalplates'>Total Pippeted Plates</h3>
+              <h4 id="total_pippete"> </h4>
 
+          </div>
+      </div>
   </div>
-
-    </div>
-  </div>
-  <div style="text-align: center;" class="graph" id="chartContainer2" style="height: 450px; widows: 90%;"></div>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-
+  <div style="text-align: center;" class="graph" id="chartContainer"></div>
   <div id="btns" class="container">
-    <div class="row">
-      <div class="col-lg-5">
-        <label id="PPbtn" for="">Number of plates</label>
-        <input type="number" name="" id="hours-bule-line" autofocus>
-        <button id="blue" type="button" class="btn btn-info">Add</button>
-
-
+      <div class="row">
+          <div class="col-lg-10">
+          </div>
+          <div id="col1" class="col-lg-1">
+              <button type="button" class="btn btn-secondary " id="clrbtn">Clear all</button>
+          </div>
+          <div id="col1" class="col-lg-1">
+              <button type="button" class="btn btn-secondary btn-sm" id="stpbtn">Stop animation</button>
+          </div>
       </div>
-      <div class="col-lg-5">
-        <label id="QPCRSbtn" for="">QPCR Start</label>
-        <input type="number" name="" id="hours-red-line">
-        <button id="red" type="button" class="btn btn-danger">Add</button>
-
-
-      </div>
-      <div id="col1" class="col-lg-1">
-        <button type="button" class="btn btn-secondary " id="clrbtn">Clear all</button>
-      </div>
-      <div id="col1" class="col-lg-1">
-        <button type="button" class="btn btn-secondary btn-sm" id="stpbtn">Stop animation</button>
+      <div class="row">
       </div>
       <div id="snackbar"></div>
-
-    </div>
-
-
     <script src="../tamplates.js"></script>
     <script type="text/javascript" src="../canvasjs.min.js"></script>
     <script src="night_script.js"></script>

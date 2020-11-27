@@ -1,14 +1,13 @@
 const navDiv = document.querySelector('#nav');
 const addBtnBlue = document.querySelector('#blue');
-const addBtnRed = document.querySelector('#red');
 const totalPipElement = document.querySelector('#total_pippete');
-const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
+const stpBtn = document.querySelector('#stpbtn');
+
 var targetnumber = prompt("Insert the target number of plates");
 if (targetnumber == null) {
     targetnumber = 65;
 }
-const stpBtn = document.querySelector('#stpbtn');
 var champaudio = new Audio('../' + 'champ.mp3');
 
 let total_pip = 0;
@@ -34,15 +33,22 @@ navDiv.innerHTML = Tamplates.navbar([{
 function showSnackbar(number) {
     // Get the snackbar DIV
     var x = document.getElementById("snackbar");
-    x.innerHTML=number+" Plates Added"
-  
+    if (number == 1) {
+        x.innerHTML = number + " Plate Added"
+    } else if (number >=1) {
+        x.innerHTML = number + " Plates Added"
+    }
+    else{
+        x.innerHTML = Math.abs(number) + " Plates Removed"
+    }
     // Add the "show" class to DIV
     x.className = "show";
-  
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-  }
 
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () {
+        x.className = x.className.replace("show", "");
+    }, 2000);
+}
 
 function timeFormat() {
     // let day =new Date().getDate()
@@ -52,23 +58,41 @@ function timeFormat() {
     return [Number(hour), Number(minutes)]
 }
 
-
 function countTotal(total, flag) {
     if (flag == 1) {
-        totalPipElement.innerHTML = `Total Pippeted Plates: ${total}`
+        totalPipElement.innerHTML = total_pip;
     } else if (flag == 2) {
-        totalQPCRElement.innerHTML = `Total In QPCR Machine: ${total}`
+        totalPipElement.innerHTML = total_qpcr
     } else if (flag == 3) {
-        totalPipElement.innerHTML = `Total Pippeted Plates: `
-        totalQPCRElement.innerHTML = `Total In QPCR Machine: `
+        totalPipElement.innerHTML = ''
+    }
+}
+
+function checkOption() {
+    if (document.getElementById("plateselect").value == "Add Pippeted Plates") {
+        console.log("pip")
+        document.getElementById("totalplates").innerHTML = "Total Pippeted Plates"
+        document.querySelector('#total_pippete').innerHTML = total_pip
+        document.querySelector('#total_pippete').style.color = "darkblue"
+
+    } else {
+        console.log("qpcr")
+        document.getElementById("totalplates").innerHTML = "    Total QPCR Plates"
+        document.querySelector('#total_pippete').innerHTML = total_qpcr
+        document.querySelector('#total_pippete').style.color = "darkred"
 
     }
 }
 
+function getOption() {
+    if (document.getElementById("plateselect").value == "Add Pippeted Plates") {
+        return 1;
+    } else return 2;
+}
 
 window.onload = function () {
 
-    var chart = new CanvasJS.Chart("chartContainer3", {
+    var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
         title: {
             text: "Motivation "
@@ -83,7 +107,8 @@ window.onload = function () {
         axisY: {
             title: "Plates Number",
             minimum: 0,
-            maximum: 100
+            maximum: 100,
+            interval: 5
         },
         legend: {
             cursor: "pointer",
@@ -152,59 +177,17 @@ window.onload = function () {
     }
 
 
-    const blueLineInput = document.querySelector('#hours-bule-line')
-    const redLineInput = document.querySelector('#hours-red-line')
-    // new Date(  'year','mount','day','hours','minutes','seconds')
+    
+    const lineInput = document.querySelector('#insertinput')
 
 
     addBtnBlue.addEventListener('click', () => {
         const [hour, minutes] = timeFormat()
-
-        total_pip += Number(blueLineInput.value)
-
-        countTotal(total_pip, 1)
-        if (total_pip == targetnumber - 5) {
-            var audio = new Audio('../' + 'advavoice.aac');
-            audio.play();
-        }
-        if (total_pip >= targetnumber && targetflag == 0) {
-            confetti.start();
-            champaudio.play();
-            targetflag = 1
-        }
-        chart.data[0].dataPoints.push({
-            x: graphDateItem(hour, minutes),
-            y: Number(total_pip)
-        })
-        showSnackbar(Number(blueLineInput.value))
-
-        chart.render()
-    })
-
-
-    addBtnRed.addEventListener('click', () => {
-        const [hour, minutes] = timeFormat()
-
-        total_qpcr += Number(redLineInput.value)
-        countTotal(total_qpcr, 2)
-
-        chart.data[1].dataPoints.push({
-            x: graphDateItem(hour, minutes),
-            y: Number(total_qpcr)
-        })
-        showSnackbar(Number(redLineInput.value))
-
-        chart.render()
-    })
-
-    document.querySelector('#hours-bule-line').addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-            const [hour, minutes] = timeFormat()
-
-            total_pip += Number(blueLineInput.value)
+        if (getOption() == 1) {
+            total_pip += Number(lineInput.value)
             countTotal(total_pip, 1)
             if (total_pip == targetnumber - 5) {
-                var audio = new Audio('../' + 'advavoice.aac');
+                var audio = new Audio('advavoice.aac');
                 audio.play();
             }
             if (total_pip >= targetnumber && targetflag == 0) {
@@ -212,28 +195,62 @@ window.onload = function () {
                 champaudio.play();
                 targetflag = 1
             }
+
             chart.data[0].dataPoints.push({
                 x: graphDateItem(hour, minutes),
                 y: total_pip
             })
-            showSnackbar(Number(blueLineInput.value))
-
+            showSnackbar(Number(lineInput.value))
             chart.render()
-        }
-    })
-    document.querySelector('#hours-red-line').addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-            const [hour, minutes] = timeFormat()
-            total_qpcr += Number(redLineInput.value)
+        } else {
+            total_qpcr += Number(lineInput.value)
             countTotal(total_qpcr, 2)
 
             chart.data[1].dataPoints.push({
                 x: graphDateItem(hour, minutes),
-                y: total_qpcr
+                y: Number(total_qpcr)
             })
-            showSnackbar(Number(redLineInput.value))
+            showSnackbar(Number(lineInput.value))
 
             chart.render()
+        }
+    })
+
+
+
+    document.querySelector('#insertinput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            const [hour, minutes] = timeFormat()
+            if (getOption() == 1) {
+                total_pip += Number(lineInput.value)
+                countTotal(total_pip, 1)
+                if (total_pip == targetnumber - 5) {
+                    var audio = new Audio('advavoice.aac');
+                    audio.play();
+                }
+                if (total_pip >= targetnumber && targetflag == 0) {
+                    confetti.start();
+                    champaudio.play();
+                    targetflag = 1
+                }
+
+                chart.data[0].dataPoints.push({
+                    x: graphDateItem(hour, minutes),
+                    y: total_pip
+                })
+                showSnackbar(Number(lineInput.value))
+                chart.render()
+            } else {
+                total_qpcr += Number(lineInput.value)
+                countTotal(total_qpcr, 2)
+
+                chart.data[1].dataPoints.push({
+                    x: graphDateItem(hour, minutes),
+                    y: total_qpcr
+                })
+                showSnackbar(Number(lineInput.value))
+                chart.render()
+            }
         }
     })
 
@@ -248,16 +265,19 @@ window.onload = function () {
 
             total_pip = 0;
             total_qpcr = 0;
+            targetflag = 0;
             countTotal(0, 3)
             confetti.stop()
             chart.render()
         }
     })
-    
+
+
     stpBtn.addEventListener('click', () => {
         if (confetti.isRunning()) {
-          confetti.remove()
+            confetti.remove()
         }
         champaudio.pause();
     })
+
 }

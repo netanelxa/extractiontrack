@@ -1,15 +1,9 @@
 const navDiv = document.querySelector('#nav');
 const addBtnBlue = document.querySelector('#blue');
-const addBtnRed = document.querySelector('#red');
 const totalPipElement = document.querySelector('#total_pippete');
-const totalQPCRElement = document.querySelector('#total_qpcr');
 const clrBtn = document.querySelector('#clrbtn');
 const stpBtn = document.querySelector('#stpbtn');
 var champaudio = new Audio('champ.mp3');
-var elem = document.documentElement;
-
-
-
 
 let total_pip = 0;
 let total_qpcr = 0;
@@ -31,17 +25,26 @@ navDiv.innerHTML = Tamplates.navbar([{
     }
 ])
 
+
 function showSnackbar(number) {
     // Get the snackbar DIV
     var x = document.getElementById("snackbar");
-    x.innerHTML=number+" Plates Added"
-  
+    if (number == 1) {
+        x.innerHTML = number + " Plate Added"
+    } else if (number >=1) {
+        x.innerHTML = number + " Plates Added"
+    }
+    else{
+        x.innerHTML = Math.abs(number) + " Plates Removed"
+    }
     // Add the "show" class to DIV
     x.className = "show";
-  
+
     // After 3 seconds, remove the show class from DIV
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-  }
+    setTimeout(function () {
+        x.className = x.className.replace("show", "");
+    }, 2000);
+}
 
 function timeFormat() {
     //   let day =new Date().getDate()
@@ -51,36 +54,14 @@ function timeFormat() {
     return [Number(hour), Number(minutes)]
 }
 
-function openFullscreen() {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) { /* Safari */
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE11 */
-      elem.msRequestFullscreen();
-    }
-  }
-
-
-  function closeFullscreen() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) { /* Safari */
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { /* IE11 */
-      document.msExitFullscreen();
-    }
-  }
 
 function countTotal(total, flag) {
     if (flag == 1) {
-        totalPipElement.innerHTML = ` ${total}`
+        totalPipElement.innerHTML = total_pip;
     } else if (flag == 2) {
-        totalQPCRElement.innerHTML = ` ${total}`
+        totalPipElement.innerHTML = total_qpcr
     } else if (flag == 3) {
         totalPipElement.innerHTML = ''
-        totalQPCRElement.innerHTML = ''
-
     }
 }
 
@@ -92,19 +73,41 @@ function getTarget() {
     return target;
 }
 
+function checkOption() {
+    if (document.getElementById("plateselect").value == "Add Pippeted Plates") {
+        console.log("pip")
+        document.getElementById("totalplates").innerHTML = "Total Pippeted Plates"
+        document.querySelector('#total_pippete').innerHTML = total_pip
+        document.querySelector('#total_pippete').style.color = "darkblue"
+
+    } else {
+        console.log("qpcr")
+        document.getElementById("totalplates").innerHTML = "    Total QPCR Plates"
+        document.querySelector('#total_pippete').innerHTML = total_qpcr
+        document.querySelector('#total_pippete').style.color = "darkred"
+
+    }
+}
+
+function getOption() {
+    if (document.getElementById("plateselect").value == "Add Pippeted Plates") {
+        return 1;
+    } else return 2;
+}
 
 window.onload = function () {
     var targetnumber;
     if (Number(new Date().toTimeString().split(':')[0]) >= 15 && Number(new Date().toTimeString().split(':')[0]) < 23) {
         window.location.replace("./evening/index_evening.html");
-    } else if ((Number(new Date().toTimeString().split(':')[0]) >= 23 || (Number(new Date().toTimeString().split(':')[0]) < 7 ))) {
+    } else if ((Number(new Date().toTimeString().split(':')[0]) >= 23 || (Number(new Date().toTimeString().split(':')[0]) < 7))) {
         window.location.replace("./night/index_night.html");
     } else {
-        targetnumber= getTarget();
+        targetnumber = getTarget();
     }
 
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
+        backgroundColor: "#F5F5F5	",
         title: {
             text: "Motivation "
         },
@@ -118,7 +121,9 @@ window.onload = function () {
         axisY: {
             title: "Plates Number",
             minimum: 0,
-            maximum: 100
+            maximum: 100,
+            interval: 5
+
         },
         legend: {
             cursor: "pointer",
@@ -170,7 +175,6 @@ window.onload = function () {
     });
 
     chart.render();
-    document.documentElement.requestFullscreen();
 
     function toggleDataSeries(e) {
         if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
@@ -187,91 +191,81 @@ window.onload = function () {
     }
 
 
-    const blueLineInput = document.querySelector('#hours-bule-line')
-    const redLineInput = document.querySelector('#hours-red-line')
-    // new Date(  'year','mount','day','hours','minutes','seconds')
+    const lineInput = document.querySelector('#insertinput')
 
 
     addBtnBlue.addEventListener('click', () => {
         const [hour, minutes] = timeFormat()
-
-        total_pip += Number(blueLineInput.value)
-        countTotal(total_pip, 1)
-        if (total_pip == targetnumber - 5) {
-            var audio = new Audio('advavoice.aac');
-            audio.play();
-        }
-        if (total_pip >= targetnumber && targetflag==0) {
-            confetti.start();
-            champaudio.play();
-            targetflag=1
-        }
-
-        chart.data[0].dataPoints.push({
-            x: graphDateItem(hour, minutes),
-            y: total_pip
-        })
-        showSnackbar(Number(blueLineInput.value))
-        chart.render()
-    })
-
-
-    addBtnRed.addEventListener('click', () => {
-        const [hour, minutes] = timeFormat()
-
-        total_qpcr += Number(redLineInput.value)
-        countTotal(total_qpcr, 2)
-
-        chart.data[1].dataPoints.push({
-            x: graphDateItem(hour, minutes),
-            y: total_qpcr
-        })
-        showSnackbar(Number(redLineInput.value))
-
-        chart.render()
-    })
-
-
-    document.querySelector('#hours-bule-line').addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-            const [hour, minutes] = timeFormat()
-
-            total_pip += Number(blueLineInput.value)
+        if (getOption() == 1) {
+            total_pip += Number(lineInput.value)
             countTotal(total_pip, 1)
             if (total_pip == targetnumber - 5) {
                 var audio = new Audio('advavoice.aac');
                 audio.play();
             }
-            if (total_pip >= targetnumber && targetflag==0) {
+            if (total_pip >= targetnumber && targetflag == 0) {
                 confetti.start();
                 champaudio.play();
-                targetflag=1
+                targetflag = 1
             }
 
             chart.data[0].dataPoints.push({
                 x: graphDateItem(hour, minutes),
                 y: total_pip
             })
-            showSnackbar(Number(blueLineInput.value))
+            showSnackbar(Number(lineInput.value))
             chart.render()
-        }
-    })
-    document.querySelector('#hours-red-line').addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-            const [hour, minutes] = timeFormat()
-
-            total_qpcr += Number(redLineInput.value)
+        } else {
+            total_qpcr += Number(lineInput.value)
             countTotal(total_qpcr, 2)
 
             chart.data[1].dataPoints.push({
                 x: graphDateItem(hour, minutes),
-                y: total_qpcr
+                y: Number(total_qpcr)
             })
-            showSnackbar(Number(redLineInput.value))
+            showSnackbar(Number(lineInput.value))
+
             chart.render()
         }
     })
 
+
+
+    document.querySelector('#insertinput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            const [hour, minutes] = timeFormat()
+            if (getOption() == 1) {
+                total_pip += Number(lineInput.value)
+                countTotal(total_pip, 1)
+                if (total_pip == targetnumber - 5) {
+                    var audio = new Audio('advavoice.aac');
+                    audio.play();
+                }
+                if (total_pip >= targetnumber && targetflag == 0) {
+                    confetti.start();
+                    champaudio.play();
+                    targetflag = 1
+                }
+
+                chart.data[0].dataPoints.push({
+                    x: graphDateItem(hour, minutes),
+                    y: total_pip
+                })
+                showSnackbar(Number(lineInput.value))
+                chart.render()
+            } else {
+                total_qpcr += Number(lineInput.value)
+                countTotal(total_qpcr, 2)
+
+                chart.data[1].dataPoints.push({
+                    x: graphDateItem(hour, minutes),
+                    y: total_qpcr
+                })
+                showSnackbar(Number(lineInput.value))
+                chart.render()
+            }
+        }
+    })
 
     clrBtn.addEventListener('click', () => {
         if (total_pip > 0 || total_qpcr > 0) {
@@ -284,18 +278,19 @@ window.onload = function () {
 
             total_pip = 0;
             total_qpcr = 0;
+            targetflag = 0;
             countTotal(0, 3)
             confetti.stop()
             chart.render()
         }
     })
-    
+
 
     stpBtn.addEventListener('click', () => {
         if (confetti.isRunning()) {
-          confetti.remove()
+            confetti.remove()
         }
         champaudio.pause();
     })
-    
+
 }

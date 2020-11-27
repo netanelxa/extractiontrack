@@ -1,10 +1,31 @@
-
-h3{
-     font-family: anton ;
+body{
+     background-color: gainsboro;
+}
+h3 {
+     font-family: anton;
 
 }
+
 #total_pippete {
-     font-family: anton ;
+     font-family: anton;
+     font-size: 60px;
+     height: 120px;
+     width: 180px;
+     background-color: #F8F8FF;
+     text-align: center;
+     border: black solid 2px;
+     padding: 25px;
+     text-align: center;
+     color: darkblue;
+     margin-bottom: 0;
+     margin-top: 0;
+     float: right;
+}
+
+
+/*
+#total_qpcr {
+     font-family: anton;
      font-size: 80px;
      height: 150px;
      width: 150px;
@@ -15,113 +36,181 @@ h3{
      border: black solid 2px;
      padding: 25px;
      text-align: center;
-     color:darkblue;
-     margin-bottom: 0;
-}
-
-
-
-#total_qpcr {
-     font-family: anton ;
-     font-size: 80px;
-     height: 150px;
-     width: 150px;
-     background-color: #F8F8FF ;
-     border-radius: 100%;
-     display: inline-block;
-     text-align: center;
-     border: black solid 2px;
-     padding: 25px;
-     text-align: center;
-     color:darkred;
+     color: darkred;
      margin-bottom: 0;
 
+}*/
+
+.container {
+     padding-top: 20px;
+
+
 }
 
-.container{
-padding-top: 20px;
-
-
+#col1 {
+     text-align: start;
 }
 
-#col1{
-text-align: start;
+#col2 {
+     text-align: end;
 }
 
-#col2{
-text-align: end;
+#QPCRSbtn {
+     font-family: anton;
+     font-size: 18px;
 }
 
-#QPCRSbtn{
-font-family: anton ;
-font-size: 18px;
+#PPbtn {
+     font-family: anton;
+     font-size: 18px;
 }
 
-#PPbtn{
-font-family: anton ;
-font-size: 18px;
-}
-
-#clrbtn{
+#clrbtn {
      width: 90px;
      height: 42px;
-     margin-left: 50%;
+     margin-left: 280px;
 
 }
 
-#stpbtn{
+#stpbtn {
      width: 120px;
-     margin-left: 50%;
+     margin-left: 280px;
      height: 42px;
 }
 
-#clrbtn:hover,#stpbtn:hover {
+#clrbtn:hover,
+#stpbtn:hover {
      background-color: red;
- }
+}
 
 
- /* The snackbar - position it at the bottom and in the middle of the screen */
+/* The snackbar - position it at the bottom and in the middle of the screen */
 #snackbar {
-     visibility: hidden; /* Hidden by default. Visible on click */
-     min-width: 250px; /* Set a default minimum width */
-     margin-left: -125px; /* Divide value of min-width by 2 */
-     background-color: #333; /* Black background color */
-     color: #fff; /* White text color */
-     text-align: center; /* Centered text */
-     border-radius: 2px; /* Rounded borders */
-     padding: 16px; /* Padding */
-     position: fixed; /* Sit on top of the screen */
-     z-index: 1; /* Add a z-index if needed */
-     left: 50%; /* Center the snackbar */
-     bottom: 30px; /* 30px from the bottom */
-   }
-   
-   /* Show the snackbar when clicking on a button (class added with JavaScript) */
-   #snackbar.show {
-     visibility: visible; /* Show the snackbar */
+     visibility: hidden;
+     /* Hidden by default. Visible on click */
+     min-width: 250px;
+     /* Set a default minimum width */
+     margin-left: -125px;
+     /* Divide value of min-width by 2 */
+     background-color: #333;
+     /* Black background color */
+     color: #fff;
+     /* White text color */
+     text-align: center;
+     /* Centered text */
+     border-radius: 2px;
+     /* Rounded borders */
+     padding: 16px;
+     /* Padding */
+     position: fixed;
+     /* Sit on top of the screen */
+     z-index: 1;
+     /* Add a z-index if needed */
+     left: 50%;
+     /* Center the snackbar */
+     bottom: 30px;
+     /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+     visibility: visible;
+     /* Show the snackbar */
      /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
      However, delay the fade out process for 2.5 seconds */
      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
      animation: fadein 0.5s, fadeout 0.5s 2.5s;
-   }
-   
-   /* Animations to fade the snackbar in and out */
-   @-webkit-keyframes fadein {
-     from {bottom: 0; opacity: 0;}
-     to {bottom: 30px; opacity: 1;}
-   }
-   
-   @keyframes fadein {
-     from {bottom: 0; opacity: 0;}
-     to {bottom: 30px; opacity: 1;}
-   }
-   
-   @-webkit-keyframes fadeout {
-     from {bottom: 30px; opacity: 1;}
-     to {bottom: 0; opacity: 0;}
-   }
-   
-   @keyframes fadeout {
-     from {bottom: 30px; opacity: 1;}
-     to {bottom: 0; opacity: 0;}
-   }
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+     from {
+          bottom: 0;
+          opacity: 0;
+     }
+
+     to {
+          bottom: 30px;
+          opacity: 1;
+     }
+}
+
+@keyframes fadein {
+     from {
+          bottom: 0;
+          opacity: 0;
+     }
+
+     to {
+          bottom: 30px;
+          opacity: 1;
+     }
+}
+
+@-webkit-keyframes fadeout {
+     from {
+          bottom: 30px;
+          opacity: 1;
+     }
+
+     to {
+          bottom: 0;
+          opacity: 0;
+     }
+}
+
+@keyframes fadeout {
+     from {
+          bottom: 30px;
+          opacity: 1;
+     }
+
+     to {
+          bottom: 0;
+          opacity: 0;
+     }
+}
+
+.form-control {
+     width: 200px;
+     display: inline-block;
+
+}
+
+
+#plateselect{
+     display: inline-block;
+     height: 40px;
+     margin-left: 30px;
+}
+#insertinput{
+     display: inline-block;
+     width: 80px;
+     height: 40px;
+     margin: 0 0 0 0;
+}
+
+
+#chartContainer{
+     height: 750px;
+     background-color: gainsboro;
+}
+
+#total{
+     background-color: lightgray   ;
+     overflow:auto;
+     display: inline-block;
+
+
+}
+
+#totalplates{
+text-align: right;
+display: inline-block;
+margin-left: 900px;
+margin-top: 50px;
+}
+
+.pselect{
+     margin-top: 20px;
+}
