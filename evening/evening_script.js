@@ -35,10 +35,9 @@ function showSnackbar(number) {
     var x = document.getElementById("snackbar");
     if (number == 1) {
         x.innerHTML = number + " Plate Added"
-    } else if (number >=1) {
+    } else if (number >= 1) {
         x.innerHTML = number + " Plates Added"
-    }
-    else{
+    } else {
         x.innerHTML = Math.abs(number) + " Plates Removed"
     }
     // Add the "show" class to DIV
@@ -88,6 +87,24 @@ function getOption() {
     if (document.getElementById("plateselect").value == "Add Pippeted Plates") {
         return 1;
     } else return 2;
+}
+
+function errorSnackbar(number) {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+    // Add the "show" class to DIV
+    if (number == 1) {
+        x.innerHTML = "Please add less than 50 plates"
+    } else {
+        x.innerHTML = "Max amount of plates is 100"
+
+    }
+    x.className = "show";
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () {
+        x.className = x.className.replace("show", "");
+    }, 2000);
 }
 
 window.onload = function () {
@@ -177,42 +194,50 @@ window.onload = function () {
     }
 
 
-    
-    const lineInput = document.querySelector('#insertinput')
 
+    const lineInput = document.querySelector('#insertinput')
 
     addBtnBlue.addEventListener('click', () => {
         const [hour, minutes] = timeFormat()
-        if (getOption() == 1) {
-            total_pip += Number(lineInput.value)
-            countTotal(total_pip, 1)
-            if (total_pip == targetnumber - 5) {
-                var audio = new Audio('advavoice.aac');
-                audio.play();
-            }
-            if (total_pip >= targetnumber && targetflag == 0) {
-                confetti.start();
-                champaudio.play();
-                targetflag = 1
-            }
+        if (Number(lineInput.value) < 50) {
+            if (getOption() == 1) {
+                if (total_pip + Number(lineInput.value) < 101) {
 
-            chart.data[0].dataPoints.push({
-                x: graphDateItem(hour, minutes),
-                y: total_pip
-            })
-            showSnackbar(Number(lineInput.value))
-            chart.render()
+                    total_pip += Number(lineInput.value)
+                    countTotal(total_pip, 1)
+                    if (total_pip == targetnumber - 5) {
+                        var audio = new Audio('advavoice.aac');
+                        audio.play();
+                    }
+                    if (total_pip >= targetnumber && targetflag == 0) {
+                        confetti.start();
+                        champaudio.play();
+                        targetflag = 1
+                    }
+
+                    chart.data[0].dataPoints.push({
+                        x: graphDateItem(hour, minutes),
+                        y: total_pip
+                    })
+                    showSnackbar(Number(lineInput.value))
+                    chart.render()
+                } else {
+                    errorSnackbar(2)
+                }
+            } else {
+                total_qpcr += Number(lineInput.value)
+                countTotal(total_qpcr, 2)
+
+                chart.data[1].dataPoints.push({
+                    x: graphDateItem(hour, minutes),
+                    y: Number(total_qpcr)
+                })
+                showSnackbar(Number(lineInput.value))
+
+                chart.render()
+            }
         } else {
-            total_qpcr += Number(lineInput.value)
-            countTotal(total_qpcr, 2)
-
-            chart.data[1].dataPoints.push({
-                x: graphDateItem(hour, minutes),
-                y: Number(total_qpcr)
-            })
-            showSnackbar(Number(lineInput.value))
-
-            chart.render()
+            errorSnackbar(1)
         }
     })
 
@@ -221,38 +246,47 @@ window.onload = function () {
     document.querySelector('#insertinput').addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
             const [hour, minutes] = timeFormat()
-            if (getOption() == 1) {
-                total_pip += Number(lineInput.value)
-                countTotal(total_pip, 1)
-                if (total_pip == targetnumber - 5) {
-                    var audio = new Audio('advavoice.aac');
-                    audio.play();
-                }
-                if (total_pip >= targetnumber && targetflag == 0) {
-                    confetti.start();
-                    champaudio.play();
-                    targetflag = 1
-                }
+            if (Number(lineInput.value) < 50) {
+                if (getOption() == 1) {
+                    if (total_pip + Number(lineInput.value) < 101) {
+                        total_pip += Number(lineInput.value)
+                        countTotal(total_pip, 1)
+                        if (total_pip == targetnumber - 5) {
+                            var audio = new Audio('advavoice.aac');
+                            audio.play();
+                        }
+                        if (total_pip >= targetnumber && targetflag == 0) {
+                            confetti.start();
+                            champaudio.play();
+                            targetflag = 1
+                        }
 
-                chart.data[0].dataPoints.push({
-                    x: graphDateItem(hour, minutes),
-                    y: total_pip
-                })
-                showSnackbar(Number(lineInput.value))
-                chart.render()
+                        chart.data[0].dataPoints.push({
+                            x: graphDateItem(hour, minutes),
+                            y: total_pip
+                        })
+                        showSnackbar(Number(lineInput.value))
+                        chart.render()
+                    } else {
+                        errorSnackbar(2)
+                    }
+                } else {
+                    total_qpcr += Number(lineInput.value)
+                    countTotal(total_qpcr, 2)
+
+                    chart.data[1].dataPoints.push({
+                        x: graphDateItem(hour, minutes),
+                        y: total_qpcr
+                    })
+                    showSnackbar(Number(lineInput.value))
+                    chart.render()
+                }
             } else {
-                total_qpcr += Number(lineInput.value)
-                countTotal(total_qpcr, 2)
-
-                chart.data[1].dataPoints.push({
-                    x: graphDateItem(hour, minutes),
-                    y: total_qpcr
-                })
-                showSnackbar(Number(lineInput.value))
-                chart.render()
+                errorSnackbar(1)
             }
         }
     })
+
 
     clrBtn.addEventListener('click', () => {
         if (total_pip > 0 || total_qpcr > 0) {
