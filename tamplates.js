@@ -1,8 +1,8 @@
 class Tamplates {
    static navbar(links) {
          return ` 
-         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-         <a class="navbar-brand" href="#">Shift </a>
+         <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-end">
+         <a class="navbar-brand" href="#"> MyHeritage Lab </a>
          <button  class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
            <span class="navbar-toggler-icon"></span>
          </button>
