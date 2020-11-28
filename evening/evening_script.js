@@ -111,6 +111,7 @@ window.onload = function () {
 
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
+        backgroundColor: "#F5F5F5	",
         title: {
             text: "Motivation "
         },
@@ -233,7 +234,6 @@ window.onload = function () {
                     y: Number(total_qpcr)
                 })
                 showSnackbar(Number(lineInput.value))
-
                 chart.render()
             }
         } else {

@@ -76,17 +76,16 @@ function countTotal(total, flag) {
 
 function checkOption() {
     if (document.getElementById("plateselect").value == "Add Pippeted Plates") {
-        console.log("pip")
         document.getElementById("totalplates").innerHTML = "Total Pippeted Plates"
         document.querySelector('#total_pippete').innerHTML = total_pip
         document.querySelector('#total_pippete').style.color = "darkblue"
+        document.getElementById("insertinput").value=''
 
     } else {
-        console.log("qpcr")
         document.getElementById("totalplates").innerHTML = "    Total QPCR Plates"
         document.querySelector('#total_pippete').innerHTML = total_qpcr
         document.querySelector('#total_pippete').style.color = "darkred"
-
+        document.getElementById("insertinput").value=''
     }
 }
 
@@ -118,6 +117,7 @@ window.onload = function () {
 
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
+        backgroundColor: "#F5F5F5	",
         title: {
             text: "Motivation "
         },
@@ -196,9 +196,14 @@ window.onload = function () {
     }
 
     function graphDateItem(hour, minutes) {
-        return new Date(2020, 11, 12, hour, minutes, 0)
+        var day
+        if (hour == 23) {
+            day = 12
+        } else {
+            day = 13
+        }
+        return new Date(2020, 11, day, hour, minutes, 0)
     }
-
 
     const lineInput = document.querySelector('#insertinput')
 
@@ -209,7 +214,6 @@ window.onload = function () {
         if (Number(lineInput.value) < 50) {
             if (getOption() == 1) {
                 if (total_pip + Number(lineInput.value) < 101) {
-
                     total_pip += Number(lineInput.value)
                     countTotal(total_pip, 1)
                     if (total_pip == targetnumber - 5) {
