@@ -73,12 +73,14 @@ function checkOption() {
         document.getElementById("totalplates").innerHTML = "Total Pippeted Plates"
         document.querySelector('#total_pippete').innerHTML = total_pip
         document.querySelector('#total_pippete').style.color = "darkblue"
+        document.getElementById("insertinput").value=''
 
     } else {
         console.log("qpcr")
         document.getElementById("totalplates").innerHTML = "    Total QPCR Plates"
         document.querySelector('#total_pippete').innerHTML = total_qpcr
         document.querySelector('#total_pippete').style.color = "darkred"
+        document.getElementById("insertinput").value=''
 
     }
 }
