@@ -82,7 +82,7 @@ function checkOption() {
         document.getElementById("insertinput").value=''
 
     } else {
-        document.getElementById("totalplates").innerHTML = "    Total QPCR Plates"
+        document.getElementById("totalplates").innerHTML = "    Total After Robot Plates"
         document.querySelector('#total_pippete').innerHTML = total_qpcr
         document.querySelector('#total_pippete').style.color = "darkred"
         document.getElementById("insertinput").value=''
@@ -94,6 +94,13 @@ function getOption() {
         return 1;
     } else return 2;
 }
+function dateForScreenshot() {
+    let day =new Date().getDate()
+    let month =new Date().getMonth()+1
+    let year = new Date().getFullYear()
+    return day+"_"+month+"_"+year+"_night"
+}
+
 
 function errorSnackbar(number) {
     // Get the snackbar DIV
@@ -117,6 +124,8 @@ window.onload = function () {
 
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
+        exportFileName:dateForScreenshot(),
+        exportEnabled: true,
         backgroundColor: "#F5F5F5	",
         title: {
             text: "Motivation "
@@ -157,7 +166,7 @@ window.onload = function () {
                 ]
             },
             {
-                name: "QPCR",
+                name: "After Robot",
                 type: "spline",
                 xValueFormatString: "HH:mm",
                 showInLegend: true,

@@ -57,6 +57,13 @@ function timeFormat() {
     return [Number(hour), Number(minutes)]
 }
 
+function dateForScreenshot() {
+    let day =new Date().getDate()
+    let month =new Date().getMonth()+1
+    let year = new Date().getFullYear()
+    return day+"_"+month+"_"+year+"_evening"
+}
+
 function countTotal(total, flag) {
     if (flag == 1) {
         totalPipElement.innerHTML = total_pip;
@@ -69,18 +76,18 @@ function countTotal(total, flag) {
 
 function checkOption() {
     if (document.getElementById("plateselect").value == "Add Pippeted Plates") {
-        console.log("pip")
         document.getElementById("totalplates").innerHTML = "Total Pippeted Plates"
         document.querySelector('#total_pippete').innerHTML = total_pip
         document.querySelector('#total_pippete').style.color = "darkblue"
         document.getElementById("insertinput").value=''
 
+
     } else {
-        console.log("qpcr")
-        document.getElementById("totalplates").innerHTML = "    Total QPCR Plates"
+        document.getElementById("totalplates").innerHTML = "    Total After Robot Plates"
         document.querySelector('#total_pippete').innerHTML = total_qpcr
         document.querySelector('#total_pippete').style.color = "darkred"
         document.getElementById("insertinput").value=''
+
 
     }
 }
@@ -113,7 +120,9 @@ window.onload = function () {
 
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
-        backgroundColor: "#F5F5F5	",
+        exportFileName:dateForScreenshot(),
+        exportEnabled: true,
+        backgroundColor: "#F5F5F5",
         title: {
             text: "Motivation "
         },
@@ -153,7 +162,7 @@ window.onload = function () {
                 ]
             },
             {
-                name: "QPCR",
+                name: "After Robot",
                 type: "spline",
                 xValueFormatString: "HH:mm",
                 showInLegend: true,
