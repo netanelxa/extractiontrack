@@ -116,8 +116,8 @@ window.onload = function () {
             viewportMaximum: new Date(2020, 11, 12, 15, 10, 00)
         },
         axisY: {
-            title: "Plates Number",
-            minimum: 0,
+title: "Number of Plates",
+                minimum: 0,
             maximum: 100
         },
         legend: {
